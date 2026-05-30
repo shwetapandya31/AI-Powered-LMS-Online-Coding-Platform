@@ -22,7 +22,7 @@ export default function CourseSuccessPage({ params }) {
     // Refresh user profile to get updated progress after payment
     const refreshProfile = async () => {
       try {
-        const profileRes = await axios.get(`http://localhost:5000/api/users/profile`, {
+        const profileRes = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/profile`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         const updatedUser = { ...user, progress: profileRes.data.progress, notifications: profileRes.data.notifications };

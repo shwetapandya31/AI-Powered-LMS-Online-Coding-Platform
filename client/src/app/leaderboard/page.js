@@ -10,7 +10,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/leaderboard');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/users/leaderboard`);
         setUsers(res.data);
       } catch (err) {
         console.error('Error fetching leaderboard', err);

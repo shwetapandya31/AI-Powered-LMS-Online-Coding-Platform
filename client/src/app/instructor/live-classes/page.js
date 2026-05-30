@@ -29,7 +29,7 @@ export default function InstructorLiveClasses() {
 
   const fetchLiveClasses = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/live-classes");
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/live-classes`);
       // Filter only classes created by this instructor
       const myClasses = res.data.filter(c => c.instructor?._id === user._id);
       setLiveClasses(myClasses);
@@ -44,7 +44,7 @@ export default function InstructorLiveClasses() {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:5000/api/live-classes",
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/live-classes`,
         formData,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -60,7 +60,7 @@ export default function InstructorLiveClasses() {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this live class?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/live-classes/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/live-classes/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       fetchLiveClasses();

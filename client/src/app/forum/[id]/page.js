@@ -18,7 +18,7 @@ export default function ForumPostPage() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/forum/${params.id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/forum/${params.id}`);
         setPost(res.data);
       } catch (err) {
         console.error('Error fetching post', err);
@@ -31,7 +31,7 @@ export default function ForumPostPage() {
 
   const handleLike = async () => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/forum/${params.id}/like`, {}, {
+      const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/forum/${params.id}/like`, {}, {
         headers: { Authorization: `Bearer ${user?.token}` }
       });
       setPost(res.data);
@@ -46,7 +46,7 @@ export default function ForumPostPage() {
     
     setSubmitting(true);
     try {
-      const res = await axios.post(`http://localhost:5000/api/forum/${params.id}/comments`, { content: newComment }, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/forum/${params.id}/comments`, { content: newComment }, {
         headers: { Authorization: `Bearer ${user?.token}` }
       });
       setPost(res.data);

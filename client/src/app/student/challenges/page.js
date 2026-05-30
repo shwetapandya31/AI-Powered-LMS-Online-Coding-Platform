@@ -19,7 +19,7 @@ export default function ChallengesPage() {
     }
     const fetchChallenges = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/challenges", {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges`, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setChallenges(res.data);

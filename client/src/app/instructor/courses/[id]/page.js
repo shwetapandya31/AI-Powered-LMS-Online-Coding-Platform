@@ -42,7 +42,7 @@ export default function ManageCourse({ params }) {
   
   const fetchCourse = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/courses/${id}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}`);
       setCourse(res.data);
       setCourseData({
         title: res.data.title,
@@ -69,7 +69,7 @@ export default function ManageCourse({ params }) {
   const handleAddVideo = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/videos`, newVideo, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/videos`, newVideo, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewVideo({ title: "", description: "", videoUrl: "", duration: 0, module: "General" });
@@ -93,7 +93,7 @@ export default function ManageCourse({ params }) {
       }))
     };
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/quizzes`, formattedQuiz, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/quizzes`, formattedQuiz, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewQuiz({ title: "", timeLimit: 0, module: "General" });
@@ -109,7 +109,7 @@ export default function ManageCourse({ params }) {
   const handleAddAssignment = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/assignments`, newAssignment, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/assignments`, newAssignment, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewAssignment({ title: "", description: "", maxScore: 100, module: "General" });
@@ -124,7 +124,7 @@ export default function ManageCourse({ params }) {
   const handleAddResource = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/resources`, newResource, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/resources`, newResource, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewResource({ title: "", url: "", module: "General" });
@@ -139,7 +139,7 @@ export default function ManageCourse({ params }) {
   const handleDeleteItem = async (type, itemId) => {
     if (!confirm(`Are you sure you want to delete this ${type.slice(0, -1)}?`)) return;
     try {
-      await axios.delete(`http://localhost:5000/api/courses/${id}/${type}/${itemId}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/${type}/${itemId}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       fetchCourse();
@@ -152,7 +152,7 @@ export default function ManageCourse({ params }) {
   const handleUpdateCourse = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/courses/${id}`, courseData, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}`, courseData, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       alert("Course updated successfully!");
@@ -174,7 +174,7 @@ export default function ManageCourse({ params }) {
       module: newProblem.module
     };
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/problems`, formattedProblem, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/problems`, formattedProblem, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewProblem({ title: '', description: '', language: 'javascript', starterCode: '', testInput: '', expectedOutput: '', module: 'General' });
@@ -192,7 +192,7 @@ export default function ManageCourse({ params }) {
     setAiGeneratedQuestions([]);
     setAiPublished(false);
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/generate-quiz', aiQuizForm, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/ai/generate-quiz`, aiQuizForm, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setAiGeneratedQuestions(res.data.questions);
@@ -208,7 +208,7 @@ export default function ManageCourse({ params }) {
     if (!aiQuizTitle.trim() || aiGeneratedQuestions.length === 0) return;
     setAiPublishing(true);
     try {
-      await axios.post(`http://localhost:5000/api/courses/${id}/quizzes`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/quizzes`, {
         title: aiQuizTitle,
         timeLimit: 0,
         module: 'AI Generated',

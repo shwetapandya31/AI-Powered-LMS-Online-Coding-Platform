@@ -11,7 +11,7 @@ export default function ForumPage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/forum');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/forum`);
         setPosts(res.data);
       } catch (err) {
         console.error('Error fetching forum posts', err);

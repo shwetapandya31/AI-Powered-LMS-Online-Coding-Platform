@@ -19,7 +19,7 @@ export default function ManageChallenges() {
 
   const fetchChallenges = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/challenges", {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setChallenges(res.data);
@@ -51,7 +51,7 @@ export default function ManageChallenges() {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/challenges", formattedChallenge, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges`, formattedChallenge, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNewChallenge({ title: "", description: "", language: "javascript", difficulty: "Medium", points: 10, testInput: "", expectedOutput: "", starterCode: "" });
@@ -66,7 +66,7 @@ export default function ManageChallenges() {
   const handleDeleteChallenge = async (id) => {
     if (!confirm("Are you sure you want to delete this challenge?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/challenges/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       fetchChallenges();

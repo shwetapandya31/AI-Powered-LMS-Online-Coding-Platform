@@ -7,7 +7,7 @@ import { Brain, Sparkles, Loader2, ChevronLeft, CheckCircle, Plus, RefreshCw, Bo
 import axios from "axios";
 import Link from "next/link";
 
-const API = "http://localhost:5000/api";
+const API = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api`;
 
 export default function AIQuizGeneratorPage() {
   const { user } = useAuthStore();

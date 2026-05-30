@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import useAuthStore from './useAuthStore';
 
-const API_URL = 'http://localhost:5000/api/courses';
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/courses`;
 
 const useCourseStore = create((set) => ({
   courses: [],

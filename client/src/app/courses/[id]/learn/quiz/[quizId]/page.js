@@ -29,7 +29,7 @@ export default function TimedQuizPage({ params }) {
     }
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}`);
         setCourse(res.data);
         const foundQuiz = res.data.quizzes?.find(q => q._id === quizId);
         if (foundQuiz) {
@@ -84,7 +84,7 @@ export default function TimedQuizPage({ params }) {
     const finalAnswers = qList.map((_, i) => answers[i] !== undefined ? answers[i] : null);
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/courses/${id}/quizzes/${quizId}/submit`, { answers: finalAnswers }, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/quizzes/${quizId}/submit`, { answers: finalAnswers }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       

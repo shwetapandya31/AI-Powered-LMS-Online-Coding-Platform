@@ -32,7 +32,7 @@ export default function StudentDashboard() {
     fetchWishlist();
     const fetchProfile = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/profile', {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/users/profile`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         const updatedUser = { ...user, progress: res.data.progress, codingScore: res.data.codingScore, points: res.data.points, badges: res.data.badges };
@@ -46,7 +46,7 @@ export default function StudentDashboard() {
     };
     const fetchNotifs = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/notifications', {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/users/notifications`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setNotifications(res.data);
@@ -70,7 +70,7 @@ export default function StudentDashboard() {
 
   const markAllRead = async () => {
     try {
-      await axios.put('http://localhost:5000/api/users/notifications/read', {}, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/users/notifications/read`, {}, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));

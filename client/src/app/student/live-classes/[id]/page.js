@@ -20,7 +20,7 @@ export default function LiveClassRoom({ params }) {
   useEffect(() => {
     const fetchClass = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/live-classes/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/live-classes/${id}`);
         setLiveClass(res.data);
       } catch (err) {
         console.error('Error fetching live class', err);
@@ -31,7 +31,7 @@ export default function LiveClassRoom({ params }) {
     fetchClass();
 
     // Socket.IO setup
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}`);
     newSocket.on('connect', () => {
       setConnected(true);
       newSocket.emit('join-class', { classId: id, userName: user?.name || 'Student' });

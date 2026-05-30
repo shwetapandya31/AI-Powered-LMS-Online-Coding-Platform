@@ -16,7 +16,7 @@ export default function NotificationsDropdown() {
 
   const markAllAsRead = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/users/notifications/read`, {}, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/notifications/read`, {}, {
         headers: { Authorization: `Bearer ${user?.token}` }
       });
       setNotifications(notifications.map(n => ({ ...n, read: true })));

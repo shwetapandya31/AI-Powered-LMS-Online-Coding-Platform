@@ -45,7 +45,7 @@ export default function LearnPage({ params }) {
     }
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}`);
         setCourse(res.data);
       } catch (err) {
         console.error(err);
@@ -96,7 +96,7 @@ export default function LearnPage({ params }) {
     setChatMessage("");
     setAiLoading(true);
     try {
-      const res = await axios.post(`http://localhost:5000/api/ai/doubt`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/ai/doubt`, {
         question: chatMessage,
         context: course.title + " - " + (course.videos[activeVideoIndex]?.title || "")
       }, { headers: { Authorization: `Bearer ${user.token}` } });
@@ -111,7 +111,7 @@ export default function LearnPage({ params }) {
   const handleVideoComplete = async () => {
     if (!activeVideo?._id) return;
     try {
-      const res = await axios.put(`http://localhost:5000/api/courses/${id}/progress`, { videoId: activeVideo._id }, {
+      const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/progress`, { videoId: activeVideo._id }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       const updatedUser = { ...user };
@@ -130,7 +130,7 @@ export default function LearnPage({ params }) {
     try {
       const results = [];
       for (const tc of problem.testCases) {
-        const res = await axios.post('http://localhost:5000/api/code/execute', {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/code/execute`, {
           language: problem.language, code, stdin: tc.input
         });
         const output = (res.data.output || '').trim();
@@ -140,7 +140,7 @@ export default function LearnPage({ params }) {
       setTestResults(results);
       if (results.every(r => r.passed)) {
         try {
-          const res = await axios.put(`http://localhost:5000/api/courses/${id}/progress`, { solvedProblem: problem._id }, {
+          const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/progress`, { solvedProblem: problem._id }, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           const updatedUser = { ...user };
@@ -544,7 +544,7 @@ export default function LearnPage({ params }) {
                                 const submissionText = e.target.submission.value;
                                 if (!submissionText.trim()) return;
                                 try {
-                                  const res = await axios.post(`http://localhost:5000/api/courses/${id}/assignments/${a._id}/submit`, { submissionText }, {
+                                  const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/assignments/${a._id}/submit`, { submissionText }, {
                                     headers: { Authorization: `Bearer ${user.token}` }
                                   });
                                   alert(`Assignment Graded! Score: ${res.data.score}/${res.data.maxScore}\nFeedback: ${res.data.feedback}`);

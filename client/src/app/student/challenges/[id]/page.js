@@ -27,7 +27,7 @@ export default function ChallengeWorkspace({ params }) {
     }
     const fetchChallenge = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/challenges/${id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges/${id}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setChallenge(res.data);
@@ -52,7 +52,7 @@ export default function ChallengeWorkspace({ params }) {
     try {
       const results = [];
       for (const tc of challenge.testCases) {
-        const res = await axios.post('http://localhost:5000/api/code/execute', {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/code/execute`, {
           language: challenge.language,
           code: code,
           stdin: tc.input
@@ -67,7 +67,7 @@ export default function ChallengeWorkspace({ params }) {
       // If all test cases passed, submit
       if (results.every(r => r.passed) && !success) {
         try {
-          const res = await axios.post(`http://localhost:5000/api/challenges/${id}/submit`, {}, {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/challenges/${id}/submit`, {}, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           const updatedUser = { ...user };

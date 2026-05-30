@@ -15,7 +15,7 @@ export default function Wishlist() {
     const fetchFullWishlist = async () => {
       if (!user) return;
       try {
-        const response = await axios.get("http://localhost:5000/api/users/wishlist", {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/wishlist`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setWishlistCourses(response.data);

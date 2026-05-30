@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/users`;
 
 const useAuthStore = create((set) => ({
   user: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null,

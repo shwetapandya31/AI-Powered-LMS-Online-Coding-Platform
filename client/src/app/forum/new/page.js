@@ -29,7 +29,7 @@ export default function NewPostPage() {
     setSubmitting(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/api/forum', 
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/forum`, 
         { title, content }, 
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

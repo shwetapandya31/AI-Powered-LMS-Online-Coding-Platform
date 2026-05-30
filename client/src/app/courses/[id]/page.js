@@ -26,7 +26,7 @@ export default function CourseDetail({ params }) {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}`);
         setCourse(res.data);
       } catch (err) {
         console.error(err);
@@ -55,11 +55,11 @@ export default function CourseDetail({ params }) {
       }
 
       // Free course — enroll directly
-      await axios.post(`http://localhost:5000/api/courses/${id}/enroll`, {}, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/courses/${id}/enroll`, {}, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
 
-      const profileRes = await axios.get(`http://localhost:5000/api/users/profile`, {
+      const profileRes = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/profile`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       const updatedUser = { ...user, progress: profileRes.data.progress };
@@ -80,12 +80,12 @@ export default function CourseDetail({ params }) {
     setProcessingPayment(true);
     
     try {
-      const res = await axios.post(`http://localhost:5000/api/payments/simulate-payment`, { courseId: course._id }, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/payments/simulate-payment`, { courseId: course._id }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
 
       if (res.data.enrolled) {
-        const profileRes = await axios.get(`http://localhost:5000/api/users/profile`, {
+        const profileRes = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/users/profile`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         const updatedUser = { ...user, progress: profileRes.data.progress, notifications: profileRes.data.notifications };

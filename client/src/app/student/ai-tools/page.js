@@ -6,7 +6,7 @@ import { Brain, Code, Mic, BookOpen, Loader2, Send, ChevronLeft, Star, RefreshCw
 import axios from "axios";
 import Link from "next/link";
 
-const API = "http://localhost:5000/api/ai";
+const API = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/ai`;
 
 // ─── Markdown-like renderer (simple) ────────────────────────────────────────
 function MarkdownText({ text }) {

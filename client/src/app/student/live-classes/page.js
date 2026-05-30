@@ -15,7 +15,7 @@ export default function LiveClassesPage() {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/live-classes');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}`}/api/live-classes`);
         setClasses(res.data);
       } catch (err) {
         console.error('Error fetching live classes', err);
